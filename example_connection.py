@@ -20,6 +20,13 @@ import os
 import sys
 from dotenv import load_dotenv
 
+try:
+    import psycopg2
+    PSYCOPG2_AVAILABLE = True
+except ImportError:
+    PSYCOPG2_AVAILABLE = False
+    psycopg2 = None
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -69,18 +76,16 @@ def connect_using_uri():
     Returns:
         connection: Database connection object or None if connection fails
     """
+    if not PSYCOPG2_AVAILABLE:
+        print("Error: psycopg2 is not installed.")
+        print("Install it using: pip install psycopg2-binary")
+        return None
+    
     try:
-        import psycopg2
-        
         print("Attempting to connect using AIVEN_SERVICE_URI...")
         connection = psycopg2.connect(AIVEN_SERVICE_URI)
         print("✓ Successfully connected to Aiven database using service URI!")
         return connection
-    
-    except ImportError:
-        print("Error: psycopg2 is not installed.")
-        print("Install it using: pip install psycopg2-binary")
-        return None
     
     except Exception as e:
         print(f"Error connecting to database using URI: {e}")
@@ -94,9 +99,12 @@ def connect_using_parameters():
     Returns:
         connection: Database connection object or None if connection fails
     """
+    if not PSYCOPG2_AVAILABLE:
+        print("Error: psycopg2 is not installed.")
+        print("Install it using: pip install psycopg2-binary")
+        return None
+    
     try:
-        import psycopg2
-        
         print("Attempting to connect using individual parameters...")
         connection = psycopg2.connect(
             host=AIVEN_HOST,
@@ -108,11 +116,6 @@ def connect_using_parameters():
         )
         print("✓ Successfully connected to Aiven database using individual parameters!")
         return connection
-    
-    except ImportError:
-        print("Error: psycopg2 is not installed.")
-        print("Install it using: pip install psycopg2-binary")
-        return None
     
     except Exception as e:
         print(f"Error connecting to database using parameters: {e}")
