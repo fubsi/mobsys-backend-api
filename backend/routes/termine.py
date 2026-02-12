@@ -24,10 +24,12 @@ def init_routes(db):
                     
                     appointment_data = {
                         "id": appointment.id,
+                        "title": appointment.Titel,
                         "ort": appointment.Ort,
                         "art_id": appointment.Art,
                         "start": appointment.Start.isoformat() if appointment.Start else None,
-                        "ende": appointment.Ende.isoformat() if appointment.Ende else None
+                        "ende": appointment.Ende.isoformat() if appointment.Ende else None,
+                        "uid": appointment.Uid
                     }
                     
                     if art:
@@ -59,10 +61,12 @@ def init_routes(db):
                     
                     appointment_data = {
                         "id": appointment.id,
+                        "title": appointment.Titel,
                         "ort": appointment.Ort,
                         "art_id": appointment.Art,
                         "start": appointment.Start.isoformat() if appointment.Start else None,
-                        "ende": appointment.Ende.isoformat() if appointment.Ende else None
+                        "ende": appointment.Ende.isoformat() if appointment.Ende else None,
+                        "uid": appointment.Uid
                     }
                     
                     if art:
@@ -85,7 +89,7 @@ def init_routes(db):
             data = request.get_json()
             
             # Validate required fields
-            if not all(key in data for key in ['ort', 'art_id', 'start', 'ende']):
+            if not all(key in data for key in ['title', 'ort', 'art_id', 'start', 'ende', 'uid']):
                 return jsonify({"error": "Missing required fields"}), 400
             
             with db.session as session:
@@ -94,10 +98,12 @@ def init_routes(db):
                 ende = datetime.fromisoformat(data['ende'])
                 
                 new_appointment = tables.Termine(
+                    Titel=data['title'],
                     Ort=data['ort'],
                     Art=data['art_id'],
                     Start=start,
-                    Ende=ende
+                    Ende=ende,
+                    Uid=data['uid']
                 )
                 session.add(new_appointment)
                 session.commit()
@@ -105,10 +111,12 @@ def init_routes(db):
                 
                 return jsonify({
                     "id": new_appointment.id,
+                    "title": new_appointment.Titel,
                     "ort": new_appointment.Ort,
                     "art_id": new_appointment.Art,
                     "start": new_appointment.Start.isoformat(),
-                    "ende": new_appointment.Ende.isoformat()
+                    "ende": new_appointment.Ende.isoformat(),
+                    "uid": new_appointment.Uid
                 }), 201
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -129,6 +137,8 @@ def init_routes(db):
                     return jsonify({"error": "Appointment not found"}), 404
                 
                 # Update fields if provided
+                if 'title' in data:
+                    appointment.Titel = data['title']
                 if 'ort' in data:
                     appointment.Ort = data['ort']
                 if 'art_id' in data:
@@ -137,16 +147,20 @@ def init_routes(db):
                     appointment.Start = datetime.fromisoformat(data['start'])
                 if 'ende' in data:
                     appointment.Ende = datetime.fromisoformat(data['ende'])
+                if 'uid' in data:
+                    appointment.Uid = data['uid']
                 
                 session.commit()
                 session.refresh(appointment)
                 
                 return jsonify({
                     "id": appointment.id,
+                    "title": appointment.Titel,
                     "ort": appointment.Ort,
                     "art_id": appointment.Art,
                     "start": appointment.Start.isoformat(),
-                    "ende": appointment.Ende.isoformat()
+                    "ende": appointment.Ende.isoformat(),
+                    "uid": appointment.Uid
                 }), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500

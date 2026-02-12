@@ -44,10 +44,12 @@ class Terminart(Base):
 class Termine(Base):
     __tablename__ = 'Termine'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    Titel = sqlalchemy.Column(sqlalchemy.String(255), nullable=False)
     Ort = sqlalchemy.Column(sqlalchemy.String(255), nullable=False)
     Art = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('Terminart.id'), nullable=False)
     Start = sqlalchemy.Column(sqlalchemy.DateTime, nullable=False)
     Ende = sqlalchemy.Column(sqlalchemy.DateTime, nullable=False)
+    Uid = sqlalchemy.Column(sqlalchemy.String(255), nullable=False)
 
 class Protokoll(Base):
     __tablename__ = 'Protokoll'

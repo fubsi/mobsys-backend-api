@@ -49,10 +49,12 @@ def init_routes(db):
                         
                         participant_data["termin"] = {
                             "id": termin.id,
+                            "title": termin.Titel,
                             "ort": termin.Ort,
                             "art_id": termin.Art,
                             "start": termin.Start.isoformat() if termin.Start else None,
-                            "ende": termin.Ende.isoformat() if termin.Ende else None
+                            "ende": termin.Ende.isoformat() if termin.Ende else None,
+                            "uid": termin.Uid
                         }
                         
                         if art:
@@ -110,10 +112,12 @@ def init_routes(db):
                         
                         participant_data["termin"] = {
                             "id": termin.id,
+                            "title": termin.Titel,
                             "ort": termin.Ort,
                             "art_id": termin.Art,
                             "start": termin.Start.isoformat() if termin.Start else None,
-                            "ende": termin.Ende.isoformat() if termin.Ende else None
+                            "ende": termin.Ende.isoformat() if termin.Ende else None,
+                            "uid": termin.Uid
                         }
                         
                         if art:

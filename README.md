@@ -89,3 +89,14 @@ mobsys-backend-api/
 - **Never commit** your `.env` file or `cert.pem` to version control
 - Keep your database credentials secure
 - Ensure the SSL certificate is valid and up to date
+
+
+## Latest Updates
+
+Table *"Termine"* has changed:
+- added column - "Titel"
+- added column - "Uid"
+
+Corresponding changes to backend *routes*
+- Adds columns to several technical implementations to retrieve data
+- *termine.py*, *teilnehmer.py*, *protokoll.py*
