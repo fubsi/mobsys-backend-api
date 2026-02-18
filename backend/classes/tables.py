@@ -66,7 +66,7 @@ class Teilnehmer(Base):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     Kontakt = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('Kontakt.id'), nullable=False)
     Termin = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('Termine.id'), nullable=False)
-    ist_Haupt = sqlalchemy.Column(sqlalchemy.Boolean, nullable=False)
+    istHaupt = sqlalchemy.Column(sqlalchemy.Boolean, nullable=False)
 
 class Medium(Base):
     __tablename__ = 'Medium'

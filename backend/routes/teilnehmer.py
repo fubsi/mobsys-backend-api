@@ -20,7 +20,7 @@ def init_routes(db):
                         "id": participant.id,
                         "kontakt_id": participant.Kontakt,
                         "termin_id": participant.Termin,
-                        "ist_Haupt": participant.ist_Haupt
+                        "istHaupt": participant.istHaupt
                     }
                     
                     # Resolve Kontakt foreign key with nested Person/Unternehmen
@@ -85,7 +85,7 @@ def init_routes(db):
                         "id": participant.id,
                         "kontakt_id": participant.Kontakt,
                         "termin_id": participant.Termin,
-                        "ist_Haupt": participant.ist_Haupt
+                        "istHaupt": participant.istHaupt
                     }
                     
                     # Resolve Kontakt foreign key with nested Person/Unternehmen
@@ -144,14 +144,14 @@ def init_routes(db):
             data = request.get_json()
             
             # Validate required fields
-            if not all(key in data for key in ['kontakt_id', 'termin_id', 'ist_Haupt']):
+            if not all(key in data for key in ['kontakt_id', 'termin_id', 'istHaupt']):
                 return jsonify({"error": "Missing required fields"}), 400
             
             with db.session as session:
                 new_participant = tables.Teilnehmer(
                     Kontakt=data['kontakt_id'],
                     Termin=data['termin_id'],
-                    ist_Haupt=data['ist_Haupt']
+                    istHaupt=data['istHaupt']
                 )
                 session.add(new_participant)
                 session.commit()
@@ -161,7 +161,7 @@ def init_routes(db):
                     "id": new_participant.id,
                     "kontakt_id": new_participant.Kontakt,
                     "termin_id": new_participant.Termin,
-                    "ist_Haupt": new_participant.ist_Haupt
+                    "istHaupt": new_participant.istHaupt
                 }), 201
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -186,8 +186,8 @@ def init_routes(db):
                     participant.Kontakt = data['kontakt_id']
                 if 'termin_id' in data:
                     participant.Termin = data['termin_id']
-                if 'ist_Haupt' in data:
-                    participant.ist_Haupt = data['ist_Haupt']
+                if 'istHaupt' in data:
+                    participant.istHaupt = data['istHaupt']
                 
                 session.commit()
                 session.refresh(participant)
@@ -196,7 +196,7 @@ def init_routes(db):
                     "id": participant.id,
                     "kontakt_id": participant.Kontakt,
                     "termin_id": participant.Termin,
-                    "ist_Haupt": participant.ist_Haupt
+                    "istHaupt": participant.istHaupt
                 }), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500
