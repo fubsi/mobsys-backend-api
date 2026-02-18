@@ -33,7 +33,8 @@ def init_routes(db):
                             "email": kontakt.EMail,
                             "telefonnummer": kontakt.Telefonnummer,
                             "rolle": kontakt.Rolle,
-                            "referenz": kontakt.Referenz,
+                            "person_id": kontakt.PersonId,
+                            "unternehmen_id": kontakt.UnternehmenId,
                             "ref_typ": kontakt.RefTyp
                         }
                     
@@ -96,7 +97,8 @@ def init_routes(db):
                             "email": kontakt.EMail,
                             "telefonnummer": kontakt.Telefonnummer,
                             "rolle": kontakt.Rolle,
-                            "referenz": kontakt.Referenz,
+                            "person_id": kontakt.PersonId,
+                            "unternehmen_id": kontakt.UnternehmenId,
                             "ref_typ": kontakt.RefTyp
                         }
                     

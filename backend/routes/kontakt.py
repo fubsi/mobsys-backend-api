@@ -21,14 +21,15 @@ def init_routes(db):
                         "email": contact.EMail,
                         "telefonnummer": contact.Telefonnummer,
                         "rolle": contact.Rolle,
-                        "referenz": contact.Referenz,
+                        "person_id": contact.PersonId,
+                        "unternehmen_id": contact.UnternehmenId,
                         "ref_typ": contact.RefTyp
                     }
                     
                     # Resolve Referenz foreign key (Person or Unternehmen)
                     if contact.RefTyp == "Person":
                         person = session.execute(
-                            select(tables.Person).where(tables.Person.id == contact.Referenz)
+                            select(tables.Person).where(tables.Person.id == contact.PersonId)
                         ).scalar_one_or_none()
                         
                         if person:
@@ -56,7 +57,7 @@ def init_routes(db):
                     
                     elif contact.RefTyp == "Unternehmen":
                         unternehmen = session.execute(
-                            select(tables.Unternehmen).where(tables.Unternehmen.id == contact.Referenz)
+                            select(tables.Unternehmen).where(tables.Unternehmen.id == contact.UnternehmenId)
                         ).scalar_one_or_none()
                         
                         if unternehmen:
@@ -102,14 +103,15 @@ def init_routes(db):
                         "email": contact.EMail,
                         "telefonnummer": contact.Telefonnummer,
                         "rolle": contact.Rolle,
-                        "referenz": contact.Referenz,
+                        "person_id": contact.PersonId,
+                        "unternehmen_id": contact.UnternehmenId,
                         "ref_typ": contact.RefTyp
                     }
                     
                     # Resolve Referenz foreign key (Person or Unternehmen)
                     if contact.RefTyp == "Person":
                         person = session.execute(
-                            select(tables.Person).where(tables.Person.id == contact.Referenz)
+                            select(tables.Person).where(tables.Person.id == contact.PersonId)
                         ).scalar_one_or_none()
                         
                         if person:
@@ -137,7 +139,7 @@ def init_routes(db):
                     
                     elif contact.RefTyp == "Unternehmen":
                         unternehmen = session.execute(
-                            select(tables.Unternehmen).where(tables.Unternehmen.id == contact.Referenz)
+                            select(tables.Unternehmen).where(tables.Unternehmen.id == contact.UnternehmenId)
                         ).scalar_one_or_none()
                         
                         if unternehmen:
@@ -176,7 +178,7 @@ def init_routes(db):
             data = request.get_json()
             
             # Validate required fields
-            if not all(key in data for key in ['email', 'telefonnummer', 'rolle', 'referenz', 'ref_typ']):
+            if not all(key in data for key in ['email', 'telefonnummer', 'rolle', 'person_id', 'unternehmen_id', 'ref_typ']):
                 return jsonify({"error": "Missing required fields"}), 400
             
             with db.session as session:
@@ -184,7 +186,8 @@ def init_routes(db):
                     EMail=data['email'],
                     Telefonnummer=data['telefonnummer'],
                     Rolle=data['rolle'],
-                    Referenz=data['referenz'],
+                    PersonId=data['person_id'] if 'person_id' in data else None,
+                    UnternehmenId=data['unternehmen_id'] if 'unternehmen_id' in data else None,
                     RefTyp=data['ref_typ']
                 )
                 session.add(new_contact)
@@ -196,7 +199,8 @@ def init_routes(db):
                     "email": new_contact.EMail,
                     "telefonnummer": new_contact.Telefonnummer,
                     "rolle": new_contact.Rolle,
-                    "referenz": new_contact.Referenz,
+                    "person_id": new_contact.PersonId,
+                    "unternehmen_id": new_contact.UnternehmenId,
                     "ref_typ": new_contact.RefTyp
                 }), 201
         except Exception as e:
@@ -224,8 +228,10 @@ def init_routes(db):
                     contact.Telefonnummer = data['telefonnummer']
                 if 'rolle' in data:
                     contact.Rolle = data['rolle']
-                if 'referenz' in data:
-                    contact.Referenz = data['referenz']
+                if 'person_id' in data:
+                    contact.PersonId = data['person_id']
+                if 'unternehmen_id' in data:
+                    contact.UnternehmenId = data['unternehmen_id']
                 if 'ref_typ' in data:
                     contact.RefTyp = data['ref_typ']
                 
@@ -237,7 +243,8 @@ def init_routes(db):
                     "email": contact.EMail,
                     "telefonnummer": contact.Telefonnummer,
                     "rolle": contact.Rolle,
-                    "referenz": contact.Referenz,
+                    "person_id": contact.PersonId,
+                    "unternehmen_id": contact.UnternehmenId,
                     "ref_typ": contact.RefTyp
                 }), 200
         except Exception as e:
