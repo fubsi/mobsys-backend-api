@@ -33,7 +33,8 @@ class Kontakt(Base):
     EMail = sqlalchemy.Column('E-Mail', sqlalchemy.String(255), nullable=False)
     Telefonnummer = sqlalchemy.Column(sqlalchemy.String(255), nullable=False)
     Rolle = sqlalchemy.Column(sqlalchemy.String(255), nullable=False)
-    Referenz = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
+    PersonId = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('Person.id'), nullable=True)
+    UnternehmenId = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('Unternehmen.id'), nullable=True)
     RefTyp = sqlalchemy.Column(sqlalchemy.String(255), nullable=False)
 
 class Terminart(Base):
