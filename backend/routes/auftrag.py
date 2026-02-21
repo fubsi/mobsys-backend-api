@@ -21,7 +21,7 @@ def init_routes(db):
                         "bezeichnung": order.Bezeichnung,
                         "wichtigkeit_id": order.wichtigkeit,
                         "kontakt_id": order.Kontakt,
-                        "termin_id": order.Termin
+                        "termin_id": order.terminid
                     }
                     
                     # Resolve Wichtigkeit foreign key
@@ -72,7 +72,7 @@ def init_routes(db):
                         "bezeichnung": order.Bezeichnung,
                         "wichtigkeit_id": order.wichtigkeit,
                         "kontakt_id": order.Kontakt,
-                        "termin_id": order.Termin
+                        "termin_id": order.terminid
                     }
                     
                     # Resolve Wichtigkeit foreign key
@@ -124,7 +124,7 @@ def init_routes(db):
                     Bezeichnung=data['bezeichnung'],
                     wichtigkeit=data['wichtigkeit_id'],
                     Kontakt=data['kontakt_id'],
-                    Termin=data['termin_id']
+                    terminid=data['termin_id']
                 )
                 session.add(new_order)
                 session.commit()
@@ -135,7 +135,7 @@ def init_routes(db):
                     "bezeichnung": new_order.Bezeichnung,
                     "wichtigkeit_id": new_order.wichtigkeit,
                     "kontakt_id": new_order.Kontakt,
-                    "termin_id": new_order.Termin
+                    "termin_id": new_order.terminid
                 }), 201
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -163,7 +163,7 @@ def init_routes(db):
                 if 'kontakt_id' in data:
                     order.Kontakt = data['kontakt_id']
                 if 'termin_id' in data:
-                    order.Termin = data['termin_id']
+                    order.terminid = data['termin_id']
                 
                 session.commit()
                 session.refresh(order)
@@ -173,7 +173,7 @@ def init_routes(db):
                     "bezeichnung": order.Bezeichnung,
                     "wichtigkeit_id": order.wichtigkeit,
                     "kontakt_id": order.Kontakt,
-                    "termin_id": order.Termin
+                    "termin_id": order.terminid
                 }), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500

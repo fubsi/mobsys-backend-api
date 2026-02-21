@@ -33,7 +33,7 @@ def init_routes(db):
                             "bezeichnung": auftrag.Bezeichnung,
                             "wichtigkeit_id": auftrag.wichtigkeit,
                             "kontakt_id": auftrag.Kontakt,
-                            "termin_id": auftrag.Termin
+                            "termin_id": auftrag.terminid
                         }
                     
                     # Resolve Produkt foreign key
@@ -81,7 +81,7 @@ def init_routes(db):
                             "bezeichnung": auftrag.Bezeichnung,
                             "wichtigkeit_id": auftrag.wichtigkeit,
                             "kontakt_id": auftrag.Kontakt,
-                            "termin_id": auftrag.Termin
+                            "termin_id": auftrag.terminid
                         }
                     
                     # Resolve Produkt foreign key
