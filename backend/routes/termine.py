@@ -15,6 +15,7 @@ def init_routes(db):
         try:
             with db.session as session:
                 appointments = session.execute(select(tables.Termine)).scalars().all()
+                orders = session.execute(select(tables.Auftrag)).scalars().all()
                 result = []
                 for appointment in appointments:
                     # Resolve Terminart foreign key
@@ -37,8 +38,18 @@ def init_routes(db):
                             "id": art.id,
                             "name": art.Name
                         }
+
+                    appointment_data["wichtigkeit_id"] = -1
+
+                    for order in orders:
+                        if order.terminid == appointment.id:
+                            if order.wichtigkeit:
+                                appointment_data["wichtigkeit_id"] = order.wichtigkeit
+                            break
                     
                     result.append(appointment_data)
+                result.sort(key=lambda x: (-x.get("wichtigkeit_id", -1), x.get("start") or ""))
+
                 return jsonify({"appointments": result, "count": len(result)}), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500
