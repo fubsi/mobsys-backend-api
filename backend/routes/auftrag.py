@@ -20,7 +20,8 @@ def init_routes(db):
                         "id": order.id,
                         "bezeichnung": order.Bezeichnung,
                         "wichtigkeit_id": order.wichtigkeit,
-                        "kontakt_id": order.Kontakt
+                        "kontakt_id": order.Kontakt,
+                        "termin_id": order.Termin
                     }
                     
                     # Resolve Wichtigkeit foreign key
@@ -70,7 +71,8 @@ def init_routes(db):
                         "id": order.id,
                         "bezeichnung": order.Bezeichnung,
                         "wichtigkeit_id": order.wichtigkeit,
-                        "kontakt_id": order.Kontakt
+                        "kontakt_id": order.Kontakt,
+                        "termin_id": order.Termin
                     }
                     
                     # Resolve Wichtigkeit foreign key
@@ -114,14 +116,15 @@ def init_routes(db):
             data = request.get_json()
             
             # Validate required fields
-            if not all(key in data for key in ['bezeichnung', 'wichtigkeit_id', 'kontakt_id']):
+            if not all(key in data for key in ['bezeichnung', 'wichtigkeit_id', 'kontakt_id', 'termin_id']):
                 return jsonify({"error": "Missing required fields"}), 400
             
             with db.session as session:
                 new_order = tables.Auftrag(
                     Bezeichnung=data['bezeichnung'],
                     wichtigkeit=data['wichtigkeit_id'],
-                    Kontakt=data['kontakt_id']
+                    Kontakt=data['kontakt_id'],
+                    Termin=data['termin_id']
                 )
                 session.add(new_order)
                 session.commit()
@@ -131,7 +134,8 @@ def init_routes(db):
                     "id": new_order.id,
                     "bezeichnung": new_order.Bezeichnung,
                     "wichtigkeit_id": new_order.wichtigkeit,
-                    "kontakt_id": new_order.Kontakt
+                    "kontakt_id": new_order.Kontakt,
+                    "termin_id": new_order.Termin
                 }), 201
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -158,6 +162,8 @@ def init_routes(db):
                     order.wichtigkeit = data['wichtigkeit_id']
                 if 'kontakt_id' in data:
                     order.Kontakt = data['kontakt_id']
+                if 'termin_id' in data:
+                    order.Termin = data['termin_id']
                 
                 session.commit()
                 session.refresh(order)
@@ -166,7 +172,8 @@ def init_routes(db):
                     "id": order.id,
                     "bezeichnung": order.Bezeichnung,
                     "wichtigkeit_id": order.wichtigkeit,
-                    "kontakt_id": order.Kontakt
+                    "kontakt_id": order.Kontakt,
+                    "termin_id": order.Termin
                 }), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500

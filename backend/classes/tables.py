@@ -97,6 +97,7 @@ class Auftrag(Base):
     Bezeichnung = sqlalchemy.Column(sqlalchemy.String(255), nullable=False)
     wichtigkeit = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('Wichtigkeit.id'), nullable=True)
     Kontakt = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('Kontakt.id'), nullable=False)
+    Termin = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('Termine.id'), nullable=True)
 
 class Auftragsposition(Base):
     __tablename__ = 'Auftragsposition'
